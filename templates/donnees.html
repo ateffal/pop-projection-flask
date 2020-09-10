@@ -1,0 +1,147 @@
+﻿{% extends "squelette.html" %}
+
+{% block titre %}Demographic Data{% endblock %}
+
+{% block corps %}
+
+
+<h3> <b> Demographic data : </b> </h3>
+
+<div class="container">
+
+  <div class="jumbotron">
+
+    <form action="/charger_donnees" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+
+      <label for="employees">Employees :</label>
+      <input type='file' name='employees' id="employees" class="form-control" required>
+      <div class="invalid-feedback">Choose a csv file !</div>
+
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#helpEmployees">
+        Help
+      </button>
+
+      <div>
+
+        <div class="modal" id="helpEmployees">
+          <div class="modal-dialog">
+            <div class="modal-content">
+
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Employees</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+
+              <!-- Modal body -->
+              <div class="modal-body">
+                Modal body..
+              </div>
+
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+
+      <label for="spouses">Spouses :</label>
+      <input type='file' name='spouses' class="form-control" id="spouses" required>
+      <div class="invalid-feedback">Choose a csv file !</div>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#helpSpouses">
+        Help
+      </button>
+
+      <div class="modal" id="helpSpouses">
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Spouses</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              Modal body..
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+      <br>
+      <br>
+
+      <div class="form-group">
+        <label for="children" >Children :</label>
+        <input type='file' name='children' class="form-control" id="children" required>
+        <div class="invalid-feedback">Choose a csv file !</div>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#helpChildren">
+          Help
+        </button>
+
+      </div>
+
+
+      <div class="modal" id="helpChildren">
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Children</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              Modal body..
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <br>
+      <br>
+
+      <button class="btn btn-primary">Load</button>
+    </form>
+
+  </div>
+</div>
+
+
+<!-- Validation script -->
+<script>
+
+var form = document.querySelector('.needs-validation');
+form.addEventListener('submit', function(event) {
+
+  if(form.checkValidity()==false) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  form.classList.add('was-validated')
+})
+
+</script>
+
+{% endblock %}

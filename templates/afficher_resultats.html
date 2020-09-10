@@ -1,0 +1,45 @@
+﻿{% extends "squelette.html" %}
+
+{% block titre %}Results:{% endblock %}
+
+{% block corps %}
+
+<h3> <b> Résultats : </b> </h3>
+
+<hr>
+
+
+<div class="container">
+    <table style="width:100%" class="table table-striped">
+
+        <tr>
+            {% for c in cols %}
+            <th>{{ c }}</th>
+
+            {% endfor %}
+        </tr>
+
+        {% for ligne in data %}
+        <tr>
+            {% for cell in ligne %}
+
+            <td>{{ cell|round|int }}</td>
+
+
+            {% endfor %}
+
+        </tr>
+        {% endfor %}
+
+    </table>
+</div>
+
+<div class="container">
+        <center>
+          <div class="jumbotron">
+                <form action="/exporter" method="get" >
+                    <button class="btn btn-primary">Export résultats</button>
+                </form>
+          </div>  
+        </center>
+{% endblock %}
