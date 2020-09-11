@@ -14,6 +14,7 @@ import sys
 # import inspect
 # sys.path.insert(0, '../pop_projection')
 
+import os
 
 from pop_projection import Effectifs as eff
 from pop_projection import sample_laws as sl
@@ -22,7 +23,7 @@ from pop_projection import sample_laws as sl
 
 
 # PATH_UPLOADS = '/home/ateffal/mysite/uploads/'
-PATH_UPLOADS = './uploads/'
+PATH_UPLOADS = '/home/ubuntu/pop-projection-flask/uploads/'
 
 # Helper functions
 def save_file(fic, path=None):
@@ -246,6 +247,7 @@ def calculer():
 
 @app.route('/charger_donnees', methods=['POST'])
 def charger_donnees():
+    session['login'] = "Guest"
     # chargement employees
     fic_employees = request.files['employees']
     data, session['employees'] = save_file(fic_employees)
@@ -257,6 +259,8 @@ def charger_donnees():
     # chargement children
     fic_children = request.files['children']
     data3, session['children'] = save_file(fic_children)
+
+    print("ici")
 
     return render_template('afficher_donnees.html', cols=list(data.columns), data=data.values.tolist(),
                            cols2=list(data2.columns), data2=data2.values.tolist(),
