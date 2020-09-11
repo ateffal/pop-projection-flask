@@ -18,7 +18,7 @@ import sys
 from pop_projection import Effectifs as eff
 from pop_projection import sample_laws as sl
 
-from flask_mysqldb import MySQL
+# from flask_mysqldb import MySQL
 
 
 # PATH_UPLOADS = '/home/ateffal/mysite/uploads/'
