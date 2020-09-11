@@ -157,6 +157,7 @@ def afficher_donnees():
 
 @app.route('/donnees', methods=['GET'])
 def donnees():
+    session['login'] = 'Guest'
     return render_template('donnees.html', user_login=session['login'])
 
 
