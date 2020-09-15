@@ -19,77 +19,7 @@ import os
 from pop_projection import Effectifs as eff
 from pop_projection import sample_laws as sl
 
-# from flask_mysqldb import MySQL
-
-
-# PATH_UPLOADS = '/home/ateffal/mysite/uploads/'
-PATH_UPLOADS = '/home/ubuntu/pop-projection-flask/uploads/'
-
-# Helper functions
-def save_file(fic, path=None):
-    fic_name = fic.filename
-    if path == None:
-        path = PATH_UPLOADS + "data/"
-
-    fic.save(path + fic_name)
-    data = pd.read_csv(path + fic_name, sep=";", decimal=",")
-    return data, fic_name
-
-def get_secret_key():
-    alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    letters = [alphabet[i] for i in range(52)]
-    sk = ""
-    for i in range(14):
-        temp = random.choice(range(52))
-        sk = sk + letters[temp]
-        sk = sk + str(random.choice(range(100)))
-    return sk
-
-
-def fic_to_func(path_fic):
-    df = pd.read_csv(path_fic, sep=";", decimal=",")
-    cols = list(df.columns)[:-1]
-    val = list(df.columns)[-1]
-
-    def func(**params):
-        assert len(cols) == len(
-            params), 'number of parameters must much cols of file'
-        assert list(
-            params.keys()) == cols, 'parameters does not much colonnes of file'
-        df_temp = df
-        i = 0
-        for param, value in params.items():
-            df_temp = df_temp[df_temp[cols[i]] == value]
-            i = i+1
-        if len(list(df_temp[val])) == 1:
-            return list(df_temp[val])[0]
-        else:
-            return 0
-
-    return func, tuple(cols)
-
-
-def df_to_func(df):
-    if not isinstance(df, pd.DataFrame):
-        return None
-    cols = list(df.columns)[:-1]
-    val = list(df.columns)[-1]
-
-    def func(*params):
-        assert len(cols) == len(
-            params), 'number of parameters must much cols of file'
-        # assert list(params.keys()) == cols, 'parameters does not much colonnes of file'
-        df_temp = df
-        i = 0
-        for value in params:
-            df_temp = df_temp[df_temp[cols[i]] == value]
-            i = i+1
-        if len(list(df_temp[val])) == 1:
-            return list(df_temp[val])[0]
-        else:
-            return 0
-
-    return (func, cols)
+from helpers_functions import *
 
 
 app = Flask(__name__, static_url_path='',  static_folder='static')
