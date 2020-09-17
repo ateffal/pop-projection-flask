@@ -1,0 +1,13 @@
+replacement_rate;number;type;sex;familyStatus;age;group
+0,1;;active;male;not married;28;1
+0,1;;active;female;not married;28;1
+0,1;;active;male;not married;30;2
+0,1;;active;female;not married;30;2
+0,1;;active;male;not married;32;3
+0,1;;active;female;not married;32;3
+0,1;;active;male;not married;34;4
+0,1;;active;female;not married;34;4
+0,1;;active;male;not married;32;5
+0,1;;active;female;not married;32;5
+0,1;;active;male;not married;30;6
+0,1;;active;female;not married;30;6

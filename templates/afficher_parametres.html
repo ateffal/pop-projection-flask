@@ -1,0 +1,68 @@
+﻿{% extends "squelette.html" %}
+
+{% block titre %}Selected parameters:{% endblock %}
+
+{% block corps %}
+
+<h3> <b> Selected parameters: </b> </h3>
+
+<hr>
+
+<div class="container">
+    <label for="">Number of years of projection: </label> <b> {{  duree_sim }} </b> <br>
+    <label for="">Mortality table : </label> <b> {{  table_mortalite }} </b> <br>
+    <label for="">Retirement Age  : </label> <b> {{  age_depart }} </b> <br>
+
+</div>
+
+
+
+
+
+
+<div class="container">
+    <table style="width:100%" class="table table-striped">
+
+        <!-- <tr>
+            {% for c in cols %}
+            <th>{{ c }}</th>
+
+            {% endfor %}
+        </tr>
+
+        {% for ligne in data %}
+        <tr>
+            {% for cell in ligne %}
+
+            <td>{{ cell|round|int }}</td>
+
+
+            {% endfor %}
+
+        </tr>
+        {% endfor %} -->
+
+    </table>
+</div>
+
+<div class="container">
+    <center>
+        <div class="row">
+
+            <div class="col-6">
+                <form action="/parametres" method="get">
+                    <button class="btn btn-primary">Edit</button>
+                </form>
+            </div>
+
+            <div class="col-6">
+                <form action="/calculer" method="get">
+                    <button class="btn btn-primary">Lanch simulation</button>
+                </form>
+            </div>
+
+        </div>
+    </center>
+
+</div>
+{% endblock %}
