@@ -77,7 +77,82 @@ def fic_repl_to_law_repl(df):
     # get df columns
     df_cols = list(df.columns)
 
-    # law of replacement
+    if 'group_out' in df_cols and 'year_' in df_cols:
+        return create_law_repl_gy(df)
+
+    if 'group_out' in df_cols:
+        return create_law_repl_g(df)
+
+    if 'year_' in df_cols:
+        return create_law_repl_y(df)
+
+    # # law of replacement
+    # def law(departures_, year_):
+    #     print('departure : ', departures_)
+    #     print('year = ', year_)
+    #     new_employees = []
+    #     j = 0
+    #     key = ''
+    #     data_=[]
+    #     for g in departures_:
+    #         # get lines from df with group_out = g
+    #         if 'year_' in df_cols:
+    #             df_g = df[(df['group_out']==g) & (df['year_']==year_)]
+    #             df_g = df_g.reset_index(drop=True)
+    #             n = len(df_g)
+    #             for i in range(n) :
+    #                 key = 'id_' + str(j) + '_year_' + str(df_g.loc[i,'year_'])
+    #                 data_= list(df_g.loc[i,:])[4:]
+                    
+    #                 temp = {'key': key, 'number': departures_[g]*df_g.loc[i,'replacement_rate'],'data':data_}
+    #                 new_employees.append(temp)
+    #                 j = j + 1
+
+    #         else:
+    #             df_g = df[(df['group_out']==g)]
+    #             df_g = df_g.reset_index(drop=True)
+    #             n = len(df_g)
+    #             for i in range(n) :
+    #                 key = 'id_' + str(j) + '_year_' + str(year_)
+    #                 data_= list(df_g.loc[i,:])[3:]
+    #                 temp = {'key': key, 'number': departures_[g]*df_g.loc[i,'replacement_rate'],'data':data_}
+    #                 new_employees.append(temp)
+    #                 j = j + 1
+
+    #     return new_employees
+
+    # return law
+
+
+# Create replacement law function if group_out and year_ are present in df
+def create_law_repl_gy(df):
+
+    def law(departures_, year_):
+        new_employees = []
+        j = 0
+        key = ''
+        data_=[]
+        for g in departures_:
+            # get lines from df with group_out = g and year_=year_
+            df_g = df[(df['group_out']==g) & (df['year_']==year_)]
+            df_g = df_g.reset_index(drop=True)
+            n = len(df_g)
+            for i in range(n) :
+                key = 'id_' + str(j) + '_year_' + str(df_g.loc[i,'year_'])
+                data_= list(df_g.loc[i,:])[4:]
+                
+                temp = {'key': key, 'number': departures_[g]*df_g.loc[i,'replacement_rate'],'data':data_}
+                new_employees.append(temp)
+                j = j + 1
+        return new_employees
+
+    return law
+
+
+
+# Create replacement law function if only group_out is present in df
+def create_law_repl_g(df):
+
     def law(departures_, year_):
         new_employees = []
         j = 0
@@ -85,28 +160,39 @@ def fic_repl_to_law_repl(df):
         data_=[]
         for g in departures_:
             # get lines from df with group_out = g
-            if 'year_' in df_cols:
-                df_g = df[(df['group_out']==g) & (df['year_']==year_)]
-                n = len(df_g)
-                for i in range(n) :
-                    key = 'id_' + str(j) + '_year_' + str(df_g.loc[i,'year_'])
-                    data_= list(df_g.loc[i,:])[4:]
+            df_g = df[(df['group_out']==g)]
+            df_g = df_g.reset_index(drop=True)
+            n = len(df_g)
+            for i in range(n) :
+                key = 'id_' + str(j) + '_year_' + str(year_)
+                data_= list(df_g.loc[i,:])[3:]
+                temp = {'key': key, 'number': departures_[g]*df_g.loc[i,'replacement_rate'],'data':data_}
+                new_employees.append(temp)
+                j = j + 1
+        return new_employees
 
-                    temp = {'key': key, 'number': departures_[g]*df_g.loc[i,'replacement_rate'],'data':data_}
-                    new_employees.append(temp)
-                    j = j + 1
+    return law
 
-            else:
-                df_g = df[(df['group_out']==g)]
-                n = len(df_g)
-                for i in range(n) :
-                    key = 'id_' + str(j) + '_year_' + str(year_)
-                    data_= list(df_g.loc[i,:])[3:]
 
-                    temp = {'key': key, 'number': departures_[g]*df_g.loc[i,'replacement_rate'],'data':data_}
-                    new_employees.append(temp)
-                    j = j + 1
+# Create replacement law function if only year_ is present in df
+def create_law_repl_y(df):
 
+    def law(departures_, year_):
+        new_employees = []
+        j = 0
+        key = ''
+        data_=[]
+        for g in departures_:
+            # get lines from df with year_ = year_
+            df_g = df[(df['year_']==year_)]
+            df_g = df_g.reset_index(drop=True)
+            n = len(df_g)
+            for i in range(n) :
+                key = 'id_' + str(j) + '_year_' + str(year_)
+                data_= list(df_g.loc[i,:])[3:]
+                temp = {'key': key, 'number': departures_[g]*df_g.loc[i,'replacement_rate'],'data':data_}
+                new_employees.append(temp)
+                j = j + 1
         return new_employees
 
     return law

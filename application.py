@@ -12,14 +12,18 @@ import pandas as pd
 import random
 import sys
 # import inspect
-# sys.path.insert(0, '../pop_projection')
+sys.path.insert(0, 'D:/Shared/Shared/a.teffal/OneDrive/OneDrive - Bank Al Maghrib/Application_Python/pop_projection')
 
-import os
 
 from pop_projection import Effectifs as eff
 from pop_projection import sample_laws as sl
 
+
 from helpers_functions import *
+
+
+
+
 
 
 app = Flask(__name__, static_url_path='',  static_folder='static')
@@ -60,6 +64,43 @@ def parametres():
     return render_template('parametres.html', user_login=session['login'])
 
 
+
+@app.route('/save_parameters', methods=['POST'])
+def save_parameters():
+    session['login']='Guest'
+    session['duree_sim'] = request.form['duree_sim']
+    session['table_mortalite'] = request.form['table_mortalite']
+    session['age_depart'] = request.form['age_depart']
+
+    return redirect(url_for('display_parameters'))
+
+@app.route('/display_parameters', methods=['GET', 'POST'])
+def display_parameters():
+    session['login']='Guest'
+
+    if 'duree_sim' in session:
+        duree_sim_ = session['duree_sim']
+    else:
+        duree_sim_ = 'Not defined'
+
+    if 'table_mortalite' in session:
+            table_mortalite_ = session['table_mortalite']
+    else:
+        table_mortalite_ = 'Not defined'
+
+    if 'age_depart' in session:
+            age_depart_ = session['age_depart']
+    else:
+        age_depart_ = 'Not defined'
+
+
+    return render_template('afficher_parametres.html', duree_sim=duree_sim_, 
+            table_mortalite=table_mortalite_, age_depart=age_depart_ ,user_login=session['login'])
+
+
+
+
+
 @app.route('/afficher_donnees', methods=['GET', 'POST'])
 def afficher_donnees():
 
@@ -88,7 +129,7 @@ def afficher_donnees():
 
 @app.route('/donnees', methods=['GET'])
 def donnees():
-    session['login'] = 'Guest'
+    session['login']='Guest'
     return render_template('donnees.html', user_login=session['login'])
 
 
@@ -133,6 +174,13 @@ def calculer():
     else:
         loi_dem = None
 
+    # Law of replacement
+    if not request.files['loi_remp'].filename == '':
+        loi_remp = save_file(
+            request.files['loi_remp'], PATH_UPLOADS + 'parameters/')[0]
+    else:
+        loi_remp = None
+
     # Loading employees data
     if 'employees' in session:
         path = PATH_UPLOADS + "data/"
@@ -158,11 +206,10 @@ def calculer():
     else:
         return "Please upload children !"
 
-    print(loi_mar)
-    print(loi_dem)
+    
 
     numbers_ = eff.projectNumbers(employees, spouses, children, table_morta, MAX_ANNEES,
-                                  law_replacement_=sl.law_replacement1,
+                                  law_replacement_=fic_repl_to_law_repl(loi_remp),
                                   law_marriage_=df_to_func(loi_mar), law_resignation_=df_to_func(loi_dem),
                                   law_retirement_=law_ret)
 
@@ -177,7 +224,7 @@ def calculer():
 
 @app.route('/charger_donnees', methods=['POST'])
 def charger_donnees():
-    session['login'] = "Guest"
+    session['login'] = 'Guest'
     # chargement employees
     fic_employees = request.files['employees']
     data, session['employees'] = save_file(fic_employees)
@@ -189,8 +236,6 @@ def charger_donnees():
     # chargement children
     fic_children = request.files['children']
     data3, session['children'] = save_file(fic_children)
-
-    print("ici")
 
     return render_template('afficher_donnees.html', cols=list(data.columns), data=data.values.tolist(),
                            cols2=list(data2.columns), data2=data2.values.tolist(),

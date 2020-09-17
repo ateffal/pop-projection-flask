@@ -6,17 +6,17 @@
     <h3><b> Parameters : </b></h3>
         <div class="container">
             <div class="jumbotron">
-                <form action="/calculer", method="post" , enctype="multipart/form-data">
+                <form action="/save_parameters", method="post" , enctype="multipart/form-data">
                     <div class="form-group">
-                        <label>Years of new employees:</label>
+                        <label>Number of years of projection:</label>
                         <input type="text" class="form-control" name="duree_sim">
-                        <label>Years of new employees::</label>
-                        <input type="text" class="form-control" name="horizon_proj">
+                        <!-- <label>Years of new employees::</label>
+                        <input type="text" class="form-control" name="horizon_proj"> -->
                     </div>
 
                     <div class="form-group">
                         <label>Mortality table:</label>
-                        <input type="text" class="form-control" name="table_mortalite">
+                        <input type="text" class="form-control" name="table_mortalite" value="{{ session['table_mortalite'] if 'table_mortalite' in session else ''}}">
 
                         <label>Retirement Age:</label>
                         <input type="text" class="form-control" name="age_depart">
@@ -35,7 +35,7 @@
 
                     </div>
 
-                    <button class="btn btn-primary">Lanch simulation</a></button>
+                    <button class="btn btn-primary">Save</a></button>
                 </form>
             </div>
         </div>

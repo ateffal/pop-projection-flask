@@ -1,0 +1,28 @@
+{% extends "squelette.html" %}
+
+{% block titre %}Application de Simulation {% endblock %}
+
+{% block corps %}
+
+<h3> <b> Identifiez vous : </b> </h3>
+<div class="container">
+    <div class="jumbotron">
+        <form action="/login" method="POST">
+            <div class="form-group">
+                <label>Login:</label>
+                <input type="text" class="form-control" name="login" placeholder="Login">
+                <label>Mot de passe:</label>
+                <input type="password" class="form-control" name="password" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">Connexion</button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+{% block footer %}
+<footer>Copyright monsite.fr 2009-2012</footer>
+{% endblock %}
