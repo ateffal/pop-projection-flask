@@ -71,6 +71,12 @@ def save_parameters():
     session['duree_sim'] = request.form['duree_sim']
     session['table_mortalite'] = request.form['table_mortalite']
     session['age_depart'] = request.form['age_depart']
+    session['loi_ret'] = request.files['loi_ret'].filename
+    session['loi_dem'] = request.files['loi_dem'].filename
+    session['loi_mar'] = request.files['loi_mar'].filename
+    session['loi_remp'] = request.files['loi_remp'].filename
+
+    
 
     return redirect(url_for('display_parameters'))
 
@@ -78,24 +84,18 @@ def save_parameters():
 def display_parameters():
     session['login']='Guest'
 
-    if 'duree_sim' in session:
-        duree_sim_ = session['duree_sim']
-    else:
-        duree_sim_ = 'Not defined'
-
-    if 'table_mortalite' in session:
-            table_mortalite_ = session['table_mortalite']
-    else:
-        table_mortalite_ = 'Not defined'
-
-    if 'age_depart' in session:
-            age_depart_ = session['age_depart']
-    else:
-        age_depart_ = 'Not defined'
+    duree_sim_ = session['duree_sim'] if 'duree_sim' in session else 'Not defined'
+    table_mortalite_ = session['table_mortalite'] if 'table_mortalite' in session else 'Not defined'
+    age_depart_ = session['age_depart'] if 'age_depart' in session else 'Not defined'
+    loi_ret_ = session['loi_ret'] if 'loi_ret' in session else 'Not defined'
+    loi_dem_ = session['loi_dem'] if 'loi_dem' in session else 'Not defined'
+    loi_mar_ = session['loi_mar'] if 'loi_mar' in session else 'Not defined'
+    loi_remp_ = session['loi_remp'] if 'loi_remp' in session else 'Not defined'
 
 
     return render_template('afficher_parametres.html', duree_sim=duree_sim_, 
-            table_mortalite=table_mortalite_, age_depart=age_depart_ ,user_login=session['login'])
+            table_mortalite=table_mortalite_, age_depart=age_depart_ ,loi_ret = loi_ret_, loi_dem = loi_dem_, 
+            loi_mar = loi_mar_, loi_remp = loi_remp_,   user_login=session['login'])
 
 
 

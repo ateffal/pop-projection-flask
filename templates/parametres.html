@@ -9,7 +9,7 @@
                 <form action="/save_parameters", method="post" , enctype="multipart/form-data">
                     <div class="form-group">
                         <label>Number of years of projection:</label>
-                        <input type="text" class="form-control" name="duree_sim">
+                        <input type="text" class="form-control" name="duree_sim" value="{{ session['duree_sim'] if 'duree_sim' in session else ''}}">
                         <!-- <label>Years of new employees::</label>
                         <input type="text" class="form-control" name="horizon_proj"> -->
                     </div>
@@ -19,10 +19,10 @@
                         <input type="text" class="form-control" name="table_mortalite" value="{{ session['table_mortalite'] if 'table_mortalite' in session else ''}}">
 
                         <label>Retirement Age:</label>
-                        <input type="text" class="form-control" name="age_depart">
+                        <input type="text" class="form-control" name="age_depart" value="{{ session['age_depart'] if 'age_depart' in session else ''}}">
 
                         <label>Or law of retirement:</label>
-                        <input type="file" class="form-control" name="loi_ret">
+                        <input type="file" class="form-control" name="loi_ret" value="{{ session['loi_ret'] if 'loi_ret' in session else ''}}">
                         
                         <label>Resignation law:</label>
                         <input type="file" class="form-control" name="loi_dem">
