@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9438be80-9ed9-41ae-b1b2-25bcae29164b}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>application.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{789894c7-04a9-4a11-a6b5-3f4435165112};{1b580a1a-fdb3-4b32-83e1-6407eb2722e6};{349c5851-65df-11da-9384-00065b846f21};{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Web launcher</LaunchProvider>
+    <InterpreterId>CondaEnv|CondaEnv|env_pop</InterpreterId>
+    <WebBrowserUrl>http://localhost</WebBrowserUrl>
+    <PythonWsgiHandler>{StartupModule}.wsgi_app</PythonWsgiHandler>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="login.html" />
+    <Content Include="run.txt" />
+    <Content Include="static\css\my-styles.css" />
+    <Content Include="static\css\styles-login.css" />
+    <Content Include="static\css\styles.css" />
+    <Content Include="static\home.html" />
+    <Content Include="static\img\avataaars.svg" />
+    <Content Include="static\img\cabin.png" />
+    <Content Include="static\img\cake.png" />
+    <Content Include="static\img\circus.png" />
+    <Content Include="static\img\face.png" />
+    <Content Include="static\img\favicon.ico" />
+    <Content Include="static\img\game.png" />
+    <Content Include="static\img\morocco1.jpg" />
+    <Content Include="static\img\morocco2.jpg" />
+    <Content Include="static\img\morocco3.jpg" />
+    <Content Include="static\img\mountain.jpg" />
+    <Content Include="static\img\safe.png" />
+    <Content Include="static\img\submarine.png" />
+    <Content Include="static\js\contact_me.js" />
+    <Content Include="static\js\jqBootstrapValidation.js" />
+    <Content Include="static\js\scripts.js" />
+    <Content Include="templates\afficher_donnees.html" />
+    <Content Include="templates\afficher_parametres.html" />
+    <Content Include="templates\afficher_resultats.html" />
+    <Content Include="templates\donnees.html" />
+    <Content Include="templates\donnees_save.html" />
+    <Content Include="templates\login.html" />
+    <Content Include="templates\login_old.html" />
+    <Content Include="templates\parametres.html" />
+    <Content Include="templates\squelette.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="application.py" />
+    <Compile Include="databases.py" />
+    <Compile Include="helpers_functions.py" />
+    <Compile Include="tests.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="static" />
+    <Folder Include="static\css" />
+    <Folder Include="static\img" />
+    <Folder Include="static\js" />
+    <Folder Include="templates" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="CondaEnv|CondaEnv|env_pop" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Web.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <AutoAssignPort>True</AutoAssignPort>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

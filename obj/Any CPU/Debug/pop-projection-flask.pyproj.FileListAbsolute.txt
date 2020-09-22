@@ -1,0 +1,3 @@
+C:\Users\Amine\OneDrive - Bank Al Maghrib\Application_Python\app_flask\pop-projection-flask\obj\Any CPU\Debug\pop-projection-flask.pyproj.CoreCompileInputs.cache
+C:\Users\Amine\OneDrive - Bank Al Maghrib\Application_Python\app_flask\pop-projection-flask\bin\Microsoft.PythonTools.WebRole.dll
+C:\Users\Amine\OneDrive - Bank Al Maghrib\Application_Python\app_flask\pop-projection-flask\bin\wfastcgi.py

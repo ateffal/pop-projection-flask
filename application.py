@@ -67,16 +67,20 @@ def parametres():
 
 @app.route('/save_parameters', methods=['POST'])
 def save_parameters():
+    
+
+    # one value parameters 
     session['login']='Guest'
     session['duree_sim'] = request.form['duree_sim']
     session['table_mortalite'] = request.form['table_mortalite']
     session['age_depart'] = request.form['age_depart']
-    session['loi_ret'] = request.files['loi_ret'].filename
-    session['loi_dem'] = request.files['loi_dem'].filename
-    session['loi_mar'] = request.files['loi_mar'].filename
-    session['loi_remp'] = request.files['loi_remp'].filename
+        
 
-    
+    # laws parameters
+    data, session['loi_ret'] = save_file(request.files['loi_ret'], PATH_UPLOADS + "parameters/")
+    data, session['loi_dem'] = save_file(request.files['loi_dem'], PATH_UPLOADS + "parameters/")
+    data, session['loi_mar'] = save_file(request.files['loi_mar'], PATH_UPLOADS + "parameters/")
+    data, session['loi_remp'] = save_file(request.files['loi_remp'], PATH_UPLOADS + "parameters/")
 
     return redirect(url_for('display_parameters'))
 
@@ -124,7 +128,19 @@ def afficher_donnees():
         cols_2 = []
         values_2 = []
 
-    return render_template('afficher_donnees.html', cols=cols_, data=values_, cols2=cols_2, data2=values_2, user_login=session['login'])
+
+    if 'children' in session:
+        path = PATH_UPLOADS + "data/"
+        fic_name_children = session['children']
+        data3 = pd.read_csv(path + fic_name_children, sep=";", decimal=",")
+        cols_3 = list(data3.columns)
+        values_3 = data3.values.tolist()
+    else:
+        cols_3 = []
+        values_3 = []
+
+    return render_template('afficher_donnees.html', cols=cols_, data=values_, cols2=cols_2, data2=values_2, 
+                          cols3=cols_3, data3=values_3,user_login=session['login'])
 
 
 @app.route('/donnees', methods=['GET'])
@@ -137,47 +153,67 @@ def donnees():
 def calculer():
     # Getting parameters
     # Mortality table
-    table_morta = request.form['table_mortalite']
+    if 'table_mortalite' in session:
+        table_morta =session['table_mortalite']
+    else:
+        return 'Select a mortality table'
+
 
     # Years of projection
-    MAX_ANNEES = int(request.form['duree_sim'])
+    if 'duree_sim' in session:
+        MAX_ANNEES = int(session['duree_sim'])
+    else:
+        return 'Type the number of years of projection !'
 
     # Law of retirement
-    if not request.form['age_depart'] == '':
-        age_depart = int(request.form['age_depart'])
-        # Construction law of retirement
+    if 'age_depart' in session:
+        age_depart = int(session['age_depart'])
 
+        # Construction law of retirement
         def law_ret(age):
             if age >= age_depart:
                 return True
             else:
                 return False
     else:
-        if not request.files['loi_ret'].filename == '':
-            loi_ret = save_file(
-                request.files['loi_ret'], PATH_UPLOADS + 'parameters/')[0]
+        if 'loi_ret' in session:
+            fic_name = session['loi_ret']
+            loi_ret = pd.read_csv(PATH_UPLOADS + 'parameters/' + fic_name, sep=";", decimal=",")
             law_ret = df_to_func(loi_ret)[0]
         else:
             return 'Saisissez un âge de retraite ou selectionner une loi de retraite !'
 
-    # Law of marriage
-    if not request.files['loi_mar'].filename == '':
-        loi_mar = save_file(
-            request.files['loi_mar'], PATH_UPLOADS + 'parameters/')[0]
-    else:
-        loi_mar = None
-
+    
     # Law of resignation
-    if not request.files['loi_dem'].filename == '':
-        loi_dem = save_file(
-            request.files['loi_dem'], PATH_UPLOADS + 'parameters/')[0]
+    if 'loi_dem' in session :
+        fic_name = session['loi_dem']
+        if not fic_name == '':
+            loi_dem = pd.read_csv(PATH_UPLOADS + 'parameters/' + fic_name, sep=";", decimal=",")
+        else:
+            loi_dem = None
     else:
         loi_dem = None
 
+
+    
+    # Law of marriage
+    if 'loi_mar' in session :
+        fic_name = session['loi_mar']
+        if not fic_name=='':
+            loi_mar = pd.read_csv(PATH_UPLOADS + 'parameters/' + fic_name, sep=";", decimal=",")
+        else:
+            loi_mar = None
+    else:
+        loi_mar = None
+
+
     # Law of replacement
-    if not request.files['loi_remp'].filename == '':
-        loi_remp = save_file(
-            request.files['loi_remp'], PATH_UPLOADS + 'parameters/')[0]
+    if 'loi_remp' in session :
+        fic_name = session['loi_remp']
+        if not fic_name=='':
+            loi_remp = pd.read_csv(PATH_UPLOADS + 'parameters/' + fic_name, sep=";", decimal=",")
+        else:
+            loi_remp = None
     else:
         loi_remp = None
 
@@ -207,13 +243,22 @@ def calculer():
         return "Please upload children !"
 
     
-
+    # projection of the population
     numbers_ = eff.projectNumbers(employees, spouses, children, table_morta, MAX_ANNEES,
                                   law_replacement_=fic_repl_to_law_repl(loi_remp),
                                   law_marriage_=df_to_func(loi_mar), law_resignation_=df_to_func(loi_dem),
                                   law_retirement_=law_ret)
 
+    # get global numbers
     data = eff.globalNumbers(numbers_[0], numbers_[1], numbers_[2], MAX_ANNEES)
+
+    # rename the columns
+    data = data.rename(columns={'effectif_actifs':'active employees', 'effectif_retraites' : 'retired employees', 
+                       'effectif_ayants_cause':'current widows',	'effectif_nouveaux_ayants_cause':'new widows', 
+                       'effectif_conjoints_actifs':'spouses of active employees', 'effectif_conjoints_retraites':'spouses of retired employees',
+                       'effectif_enfants_actifs':'children of active employees', 'effectif_enfants_retraites':'children of retired employees', 
+                       'effectif_enfants_ayant_cause' : 'orphans'})
+
 
     # save the results
     data.to_csv(PATH_UPLOADS + 'results/results.csv',
@@ -244,12 +289,12 @@ def charger_donnees():
 
 @app.route('/exporter', methods=['GET'])
 def exporter():
-    return send_from_directory(PATH_UPLOADS + 'results/', 'results.csv')
+    return send_from_directory(PATH_UPLOADS + 'results/', 'results.csv', as_attachement=True)
 
 
 @app.errorhandler(400)
 def erreur_400(error):
-    return ("<h1>Erreur 400</h1>")
+    return ("<h1>--------------------  Erreur 400 ---------------------------</h1>")
 
 
 @app.errorhandler(401)
@@ -259,12 +304,15 @@ def erreur_401(error):
 
 @app.errorhandler(404)
 def erreur_404(error):
-    return ("<h1>Erreur 404</h1>")
+
+    return ("<h1>--------------------  Erreur 404 ---------------------------</h1>")
+
+
 
 
 @app.errorhandler(500)
 def erreur_500(error):
-    return ("<h1>Erreur 500</h1>")
+    return ("<h1>--------------------  Erreur 500 ---------------------------</h1>")
 
 
 if __name__ == '__main__':

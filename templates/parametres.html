@@ -15,8 +15,30 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Mortality table:</label>
-                        <input type="text" class="form-control" name="table_mortalite" value="{{ session['table_mortalite'] if 'table_mortalite' in session else ''}}">
+                        <!-- <label>Mortality table:</label> -->
+
+                        <!-- <input type="text" class="form-control" name="table_mortalite" value="{{ session['table_mortalite'] if 'table_mortalite' in session else ''}}"> -->
+                        
+                        <!-- Mortality table -->
+                        <div class="form-group">
+                            <label for="sel1">Mortality table:</label>
+                            <select class="form-control" id="sel1" name="table_mortalite">
+                              {% if not 'table_mortalite' in session %}
+                                <option value='TV 88-90' selected >TV 88-90</option>
+                                <option value='TD 90-92'>TD 90-92</option>
+                                <option value="TD 73-77" >TD 73-77</option>
+
+                              {% endif %}
+
+                              {% if 'table_mortalite' in session %}
+                                <option value='TV 88-90' {{ "selected" if session["table_mortalite"]=="TV 88-90" }} >TV 88-90</option>
+                                <option value='TD 90-92' {{ 'selected' if session['table_mortalite']=='TD 90-92' }}>TD 90-92</option>
+                                <option value="TD 73-77" {{ 'selected' if session['table_mortalite']=='TD 73-77' }} >TD 73-77</option>
+
+                              {% endif %}
+
+                            </select>
+                          </div>
 
                         <label>Retirement Age:</label>
                         <input type="text" class="form-control" name="age_depart" value="{{ session['age_depart'] if 'age_depart' in session else ''}}">
