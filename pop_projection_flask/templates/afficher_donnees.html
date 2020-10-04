@@ -1,0 +1,119 @@
+﻿{% extends "squelette.html" %}
+
+{% block titre %}Parametres{% endblock %}
+
+{% block corps %}
+
+<h3> <b> Données Démographiques : </b> </h3>
+
+<hr>
+
+<ul class="nav nav-tabs">
+
+    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#employees">Employees</a></li>
+    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#spouses">Spouses</a></li>
+    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#children">Children</a></li>
+
+</ul>
+
+
+<div class="tab-content">
+    <div id="employees" class="tab-pane active">
+
+        <div class="container">
+            <table style="width:100%" class="table-hover">
+
+                <tr>
+                    {% for c in cols %}
+                    <th>{{ c }}</th>
+
+                    {% endfor %}
+                </tr>
+
+                {% for ligne in data %}
+                <tr>
+                    {% for cell in ligne %}
+
+                    <td>{{ cell }}</td>
+
+
+                    {% endfor %}
+
+                </tr>
+                {% endfor %}
+
+            </table>
+        </div>
+
+    </div>
+
+
+    <div id="spouses" class="tab-pane fade">
+
+        <div class="container">
+            <table style="width:100%" class="table-hover">
+
+                <tr>
+                    {% for c in cols2 %}
+                    <th>{{ c }}</th>
+
+                    {% endfor %}
+                </tr>
+
+                {% for ligne in data2 %}
+                <tr>
+                    {% for cell in ligne %}
+
+                    <td>{{ cell }}</td>
+
+
+                    {% endfor %}
+
+                </tr>
+                {% endfor %}
+
+            </table>
+        </div>
+
+    </div>
+
+    <div id="children" class="tab-pane fade">
+        <div class="container">
+                <table style="width:100%" class="table-hover">
+    
+                    <tr>
+                        {% for c in cols3 %}
+                        <th>{{ c }}</th>
+    
+                        {% endfor %}
+                    </tr>
+    
+                    {% for ligne in data3 %}
+                    <tr>
+                        {% for cell in ligne %}
+    
+                        <td>{{ cell }}</td>
+    
+    
+                        {% endfor %}
+    
+                    </tr>
+                    {% endfor %}
+    
+                </table>
+            </div>
+    </div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+{% endblock %}

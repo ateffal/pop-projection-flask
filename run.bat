@@ -1,0 +1,3 @@
+set FLASK_APP=pop_projection_flask
+set FLASK_ENV=development
+flask run

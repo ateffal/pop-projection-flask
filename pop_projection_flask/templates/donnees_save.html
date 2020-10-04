@@ -1,0 +1,76 @@
+﻿{% extends "squelette.html" %}
+
+{% block titre %}Parametres{% endblock %}
+
+{% block corps %}
+
+<form action="/" method="get">
+    <button class="btn btn-info">Acceuil</a></button>
+</form>
+
+<h3> <b> Données Démographiques : </b> </h3>
+<div class="container">
+    <div class="jumbotron">
+
+        <form action="/charger_donnees" method="post" enctype="multipart/form-data">
+
+            <br>
+            <br>
+            Agents : <input type='file' name='employees'>
+
+            <br>
+            <br>
+            Conjoints : <input type='file' name='spouses'>
+
+            <br>
+            <br>
+            Enfants : <input type='file' name='children'>
+
+            <br>
+            <br>
+
+            <button class="btn btn-info">Charger</a></button>
+        </form>
+    </div>
+
+</div>
+
+<hr>
+
+<div class="container">
+    <table style="width:100%" class="table-hover">
+
+        <tr>
+
+            {% for c in cols %}
+            <th>{{ c }}</th>
+
+            {% endfor %}
+
+
+
+        </tr>
+
+        {% for ligne in data %}
+        <tr>
+            {% for cell in ligne %}
+
+            <td>{{ cell }}</td>
+
+
+            {% endfor %}
+
+        </tr>
+        {% endfor %}
+
+
+    </table>
+</div>
+
+
+
+
+
+
+
+{% endblock %}
