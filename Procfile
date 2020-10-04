@@ -1,0 +1,1 @@
+web: gunicorn pop-projection.wsgi --log-file -
