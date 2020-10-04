@@ -3,7 +3,7 @@ import pandas as pd
 
 
 # PATH_UPLOADS = '/home/ateffal/mysite/uploads/'
-PATH_UPLOADS = './'
+PATH_UPLOADS = '/app/'
 
 # Helper functions
 def save_file(fic, path=None):
