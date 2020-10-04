@@ -14,7 +14,7 @@ from .auth import login_required
 from.db import get_db
 
 # import inspect
-sys.path.insert(0, 'D:/Shared/Shared/a.teffal/OneDrive/OneDrive - Bank Al Maghrib/Application_Python/pop_projection')
+# sys.path.insert(0, 'D:/Shared/Shared/a.teffal/OneDrive/OneDrive - Bank Al Maghrib/Application_Python/pop_projection')
 
 
 from pop_projection import Effectifs as eff

@@ -3,7 +3,7 @@ import pandas as pd
 
 
 # PATH_UPLOADS = '/home/ateffal/mysite/uploads/'
-PATH_UPLOADS = 'D:/Shared/Shared/a.teffal/OneDrive/OneDrive - Bank Al Maghrib/Application_Python/app_flask/pop-projection-flask/pop_projection_flask/uploads/'
+PATH_UPLOADS = 'C:/Users/Amine\OneDrive - Bank Al Maghrib/Application_Python/app_flask/pop-projection-flask/pop_projection_flask/uploads/'
 
 # Helper functions
 def save_file(fic, path=None):
