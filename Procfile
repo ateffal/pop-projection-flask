@@ -1,1 +1,1 @@
-web: gunicorn pop-projection.wsgi --log-file -
+web: gunicorn wsgi:app
