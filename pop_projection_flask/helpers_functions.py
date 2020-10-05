@@ -1,9 +1,12 @@
 import random
 import pandas as pd
+import os
 
 
 # PATH_UPLOADS = '/home/ateffal/mysite/uploads/'
-PATH_UPLOADS = '/app/'
+# PATH_UPLOADS = '/app/'
+
+PATH_UPLOADS = os.getcwd() + '/'
 
 # Helper functions
 def save_file(fic, path=None):
@@ -111,7 +114,7 @@ def create_law_repl_gy(df):
             for i in range(n) :
                 key = 'id_' + str(j) + '_year_' + str(df_g.loc[i,'year_'])
                 data_= list(df_g.loc[i,:])[4:]
-                
+
                 temp = {'key': key, 'number': departures_[g]*df_g.loc[i,'replacement_rate'],'data':data_}
                 new_employees.append(temp)
                 j = j + 1

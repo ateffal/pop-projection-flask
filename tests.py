@@ -15,18 +15,23 @@ import functools
 
 
 
-def test(func):
-    @functools.wraps(func)
-    def wrapped_func(**kwargs):
-        print("I am wrapped  func", func.__code__)
-        return func(**kwargs)
+# def test(func):
+#     @functools.wraps(func)
+#     def wrapped_func(**kwargs):
+#         print("I am wrapped  func", func.__code__)
+#         return func(**kwargs)
 
-    return wrapped_func
-
-
-
-def f(a,b):
-    print(a, '  +  ', b, '  =  ', a+b)
+#     return wrapped_func
 
 
-f2 = test(f)
+
+# def f(a,b):
+#     print(a, '  +  ', b, '  =  ', a+b)
+
+
+# f2 = test(f)
+
+import os
+
+
+os.path.dirname(path)
