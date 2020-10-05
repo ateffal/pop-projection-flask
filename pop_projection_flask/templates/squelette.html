@@ -25,11 +25,11 @@
 
 
     <link href="../static/css/styles.css" rel="stylesheet">
-    
+
 
 
     {% block header %}
-    
+
     <title>{% block titre %}Titre par défaut{% endblock %}</title>
     {% endblock %}
 </head>
@@ -39,22 +39,22 @@
         {% for message in get_flashed_messages() %}
           <div class="flash">{{ message }}</div>
         {% endfor %}
-        
+
         Logged user : {{ g.user['username'] }}
         <div class="container">
                 <center>
                   <div class="jumbotron">
                     <h2>Population projection of a retirement plan</h2>
                   </div>
-                  
+
                   <div class="row">
 
                     <div class="col-2">
 
-                      <form action='/home'>
-                      
+                      <form action='/'>
+
                         <button class="btn btn-primary btn-block">Home</a></button>
-                      
+
                       </form>
 
                     </div>
@@ -62,9 +62,9 @@
                     <div class="col-3">
 
                       <form action='/donnees'>
-                      
+
                         <button class="btn btn-primary btn-block">Load Demographic Data</a></button>
-                      
+
                       </form>
 
                     </div>
@@ -76,7 +76,7 @@
                       </form>
 
                     </div>
-            
+
                     <div class="col-2">
                       <form action='/parametres'>
                         <button class="btn btn-primary btn-block">Parameters</a></button>
@@ -88,11 +88,11 @@
                         <button class="btn btn-primary btn-block">Display Parameters</a></button>
                       </form>
                     </div>
-            
+
                   </div>
                 </center>
               </div>
-              
+
     {% block corps %}{% endblock %}
     {% block footer %}{% endblock %}
 </body>
