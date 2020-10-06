@@ -60,14 +60,14 @@ def parametres():
 
 @bp.route('/save_parameters', methods=['POST'])
 def save_parameters():
-    
 
-    # one value parameters 
+
+    # one value parameters
     session['login']='Guest'
     session['duree_sim'] = request.form['duree_sim']
     session['table_mortalite'] = request.form['table_mortalite']
     session['age_depart'] = request.form['age_depart']
-        
+
 
     # laws parameters
     data, session['loi_ret'] = save_file(request.files['loi_ret'], PATH_UPLOADS + "parameters/")
@@ -90,8 +90,8 @@ def display_parameters():
     loi_remp_ = session['loi_remp'] if 'loi_remp' in session else 'Not defined'
 
 
-    return render_template('afficher_parametres.html', duree_sim=duree_sim_, 
-            table_mortalite=table_mortalite_, age_depart=age_depart_ ,loi_ret = loi_ret_, loi_dem = loi_dem_, 
+    return render_template('afficher_parametres.html', duree_sim=duree_sim_,
+            table_mortalite=table_mortalite_, age_depart=age_depart_ ,loi_ret = loi_ret_, loi_dem = loi_dem_,
             loi_mar = loi_mar_, loi_remp = loi_remp_,   user_login=session['login'])
 
 
@@ -132,7 +132,7 @@ def afficher_donnees():
         cols_3 = []
         values_3 = []
 
-    return render_template('afficher_donnees.html', cols=cols_, data=values_, cols2=cols_2, data2=values_2, 
+    return render_template('afficher_donnees.html', cols=cols_, data=values_, cols2=cols_2, data2=values_2,
                           cols3=cols_3, data3=values_3,user_login=session['login'])
 
 
@@ -176,7 +176,7 @@ def calculer():
         else:
             return 'Saisissez un âge de retraite ou selectionner une loi de retraite !'
 
-    
+
     # Law of resignation
     if 'loi_dem' in session :
         fic_name = session['loi_dem']
@@ -188,7 +188,7 @@ def calculer():
         loi_dem = None
 
 
-    
+
     # Law of marriage
     if 'loi_mar' in session :
         fic_name = session['loi_mar']
@@ -235,7 +235,7 @@ def calculer():
     else:
         return "Please upload children !"
 
-    
+
     # projection of the population
     numbers_ = eff.projectNumbers(employees, spouses, children, table_morta, MAX_ANNEES,
                                   law_replacement_=fic_repl_to_law_repl(loi_remp),
@@ -246,10 +246,10 @@ def calculer():
     data = eff.globalNumbers(numbers_[0], numbers_[1], numbers_[2], MAX_ANNEES)
 
     # rename the columns
-    data = data.rename(columns={'effectif_actifs':'active employees', 'effectif_retraites' : 'retired employees', 
-                       'effectif_ayants_cause':'current widows',	'effectif_nouveaux_ayants_cause':'new widows', 
+    data = data.rename(columns={'effectif_actifs':'active employees', 'effectif_retraites' : 'retired employees',
+                       'effectif_ayants_cause':'current widows',	'effectif_nouveaux_ayants_cause':'new widows',
                        'effectif_conjoints_actifs':'spouses of active employees', 'effectif_conjoints_retraites':'spouses of retired employees',
-                       'effectif_enfants_actifs':'children of active employees', 'effectif_enfants_retraites':'children of retired employees', 
+                       'effectif_enfants_actifs':'children of active employees', 'effectif_enfants_retraites':'children of retired employees',
                        'effectif_enfants_ayant_cause' : 'orphans'})
 
 
@@ -283,6 +283,15 @@ def charger_donnees():
 @bp.route('/exporter', methods=['GET'])
 def exporter():
     return send_from_directory(PATH_UPLOADS + 'results/', 'results.csv')
+
+
+@bp.route('/create_sim', methods=['GET', 'POST'])
+def create_sim():
+    if request.method == 'GET':
+        session['login']='Guest'
+        return render_template('create_simulation.html', user_login=session['login'])
+    if request.method == 'POST':
+        return 'Not yet implemented !'
 
 
 @bp.errorhandler(400)
