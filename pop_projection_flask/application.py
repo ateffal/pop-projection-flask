@@ -23,6 +23,8 @@ from pop_projection import sample_laws as sl
 
 from .helpers_functions import *
 
+from .db import get_db
+
 
 bp = Blueprint('application', __name__, static_folder='static', static_url_path='/static')
 
@@ -291,7 +293,15 @@ def create_sim():
         session['login']='Guest'
         return render_template('create_simulation.html', user_login=session['login'])
     if request.method == 'POST':
-        return 'Not yet implemented !'
+        sim_name = request.form['sim_name']
+        sim_description = request.form['sim_description']
+        user_id = 0
+        db_path = ''
+        db = get_db()
+        db.execute('INSERT INTO simulations (sim_name, sim_description, db_path, user_id) VALUES (?, ?, ?, ?)', (sim_name, sim_description, db_path, user_id))
+        db.commit()
+        return render_template('donnees.html', user_login=session['login'])
+
 
 
 @bp.errorhandler(400)
