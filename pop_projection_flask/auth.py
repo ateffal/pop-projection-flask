@@ -59,7 +59,9 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['id']
-            return redirect(url_for('application.donnees'))
+            session['username'] = user['username']
+            # return redirect(url_for('application.donnees'))
+            return redirect(url_for('application.simulations'))
 
         flash(error)
 
