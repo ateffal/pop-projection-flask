@@ -307,7 +307,11 @@ def create_sim():
 @bp.route('/simulations', methods=['GET'])
 def simulations():
     if request.method == 'GET':
-        return render_template('simulations.html', simulations=['sim1', 'sim2', 'sim3'])
+        db = get_db()
+        user_id = 0 # session['user_id']
+        sims = db.execute('SELECT * FROM simulations WHERE user_id = ?', (user_id,)).fetchall()
+        sims = list(sims)
+        return render_template('simulations.html', simulations=sims)
 
 
 

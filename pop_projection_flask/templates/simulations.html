@@ -56,7 +56,7 @@
         <div class="table-wrapper">
             <div class="table-title">
                 <div class="row">
-                    <div class="col-sm-8"><h2>Simulations </h2></div>
+                    <div class="col-sm-8"><h2>My Simulations </h2></div>
                     <div class="col-sm-4">
                         <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New Simulation</button>
                     </div>
@@ -68,7 +68,6 @@
                         <th>Id</th>
                         <th>Name</th>
                         <th>Description</th>
-                        <th>Path</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -76,10 +75,10 @@
                 <tbody>
                     {% for sim in simulations %}-
                         <tr>
-                            <td>{{sim}}</td>
-                            <td>Simulation1</td>
-                            <td>Description 1</td>
-                            <td>Path 1</td>
+                            <td>{{sim[0]}}</td>
+                            <td>{{sim[1]}}</td>
+                            <td>{{sim[2]}}</td>
+
                             <td>
                                 <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
                                 <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
