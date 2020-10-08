@@ -307,7 +307,7 @@ def create_sim():
 @bp.route('/simulations', methods=['GET'])
 def simulations():
     if request.method == 'GET':
-        return render_template('simulations.html', simulations=['sim1', 'sim2'])
+        return render_template('simulations.html', simulations=['sim1', 'sim2', 'sim3'])
 
 
 

@@ -1,3 +1,4 @@
 export FLASK_APP=pop_projection_flask
+export FLASK_DEBUG=1
 export FLASK_ENV=development
 flask run
