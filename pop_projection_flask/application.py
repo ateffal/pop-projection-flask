@@ -295,7 +295,7 @@ def create_sim():
     if request.method == 'POST':
         sim_name = request.form['sim_name']
         sim_description = request.form['sim_description']
-        user_id = 0
+        user_id = session['user_id']
         db_path = ''
         db = get_db()
         db.execute('INSERT INTO simulations (sim_name, sim_description, db_path, user_id) VALUES (?, ?, ?, ?)', (sim_name, sim_description, db_path, user_id))
@@ -308,7 +308,7 @@ def create_sim():
 def simulations():
     if request.method == 'GET':
         db = get_db()
-        user_id = 0 # session['user_id']
+        user_id = session['user_id']
         sims = db.execute('SELECT * FROM simulations WHERE user_id = ?', (user_id,)).fetchall()
         sims = list(sims)
         return render_template('simulations.html', simulations=sims)
