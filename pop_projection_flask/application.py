@@ -66,10 +66,10 @@ def save_parameters():
 
 
     # laws parameters
-    data, session['loi_ret'] = save_file(request.files['loi_ret'], PATH_UPLOADS + "parameters/")
-    data, session['loi_dem'] = save_file(request.files['loi_dem'], PATH_UPLOADS + "parameters/")
-    data, session['loi_mar'] = save_file(request.files['loi_mar'], PATH_UPLOADS + "parameters/")
-    data, session['loi_remp'] = save_file(request.files['loi_remp'], PATH_UPLOADS + "parameters/")
+    data, session['loi_ret'] = save_file(request.files['loi_ret'], session['sim_folder'] + "/parameters/")
+    data, session['loi_dem'] = save_file(request.files['loi_dem'], session['sim_folder'] + "/parameters/")
+    data, session['loi_mar'] = save_file(request.files['loi_mar'], session['sim_folder'] + "/parameters/")
+    data, session['loi_remp'] = save_file(request.files['loi_remp'], session['sim_folder'] + "/parameters/")
 
     return redirect(url_for('application.display_parameters'))
 
@@ -96,7 +96,7 @@ def display_parameters():
 def afficher_donnees():
 
     if 'employees' in session:
-        path = PATH_UPLOADS + "data/"
+        path = session['sim_folder'] + "/data/"
         fic_name_employees = session['employees']
         data = pd.read_csv(path + fic_name_employees, sep=";", decimal=",")
         cols_ = list(data.columns)
@@ -106,7 +106,7 @@ def afficher_donnees():
         values_ = []
 
     if 'spouses' in session:
-        path = PATH_UPLOADS + "data/"
+        path = session['sim_folder'] + "/data/"
         fic_name_spouses = session['spouses']
         data2 = pd.read_csv(path + fic_name_spouses, sep=";", decimal=",")
         cols_2 = list(data2.columns)
@@ -117,7 +117,7 @@ def afficher_donnees():
 
 
     if 'children' in session:
-        path = PATH_UPLOADS + "data/"
+        path = session['sim_folder'] + "/data/"
         fic_name_children = session['children']
         data3 = pd.read_csv(path + fic_name_children, sep=";", decimal=",")
         cols_3 = list(data3.columns)
@@ -137,7 +137,7 @@ def donnees(sim_id):
     user_id = session['user_id']
     sim = db.execute('SELECT * FROM simulations WHERE user_id = ? and id = ?', (user_id, sim_id)).fetchone()
     session['active_sim'] = sim[1]
-    session['sim_folder'] = 'SIM_' + sim[1]
+    session['sim_folder'] = sim[3]
     return render_template('donnees.html')
 
 
@@ -170,7 +170,7 @@ def calculer():
     else:
         if 'loi_ret' in session:
             fic_name = session['loi_ret']
-            loi_ret = pd.read_csv(PATH_UPLOADS + 'parameters/' + fic_name, sep=";", decimal=",")
+            loi_ret = pd.read_csv(session['sim_folder'] + 'parameters/' + fic_name, sep=";", decimal=",")
             law_ret = df_to_func(loi_ret)[0]
         else:
             return 'Saisissez un âge de retraite ou selectionner une loi de retraite !'
@@ -180,7 +180,7 @@ def calculer():
     if 'loi_dem' in session :
         fic_name = session['loi_dem']
         if not fic_name == '':
-            loi_dem = pd.read_csv(PATH_UPLOADS + 'parameters/' + fic_name, sep=";", decimal=",")
+            loi_dem = pd.read_csv(session['sim_folder'] + 'parameters/' + fic_name, sep=";", decimal=",")
         else:
             loi_dem = None
     else:
@@ -192,7 +192,7 @@ def calculer():
     if 'loi_mar' in session :
         fic_name = session['loi_mar']
         if not fic_name=='':
-            loi_mar = pd.read_csv(PATH_UPLOADS + 'parameters/' + fic_name, sep=";", decimal=",")
+            loi_mar = pd.read_csv(session['sim_folder'] + 'parameters/' + fic_name, sep=";", decimal=",")
         else:
             loi_mar = None
     else:
@@ -203,7 +203,7 @@ def calculer():
     if 'loi_remp' in session :
         fic_name = session['loi_remp']
         if not fic_name=='':
-            loi_remp = pd.read_csv(PATH_UPLOADS + 'parameters/' + fic_name, sep=";", decimal=",")
+            loi_remp = pd.read_csv(session['sim_folder'] + 'parameters/' + fic_name, sep=";", decimal=",")
         else:
             loi_remp = None
     else:
@@ -211,7 +211,7 @@ def calculer():
 
     # Loading employees data
     if 'employees' in session:
-        path = PATH_UPLOADS + "data/"
+        path = session['sim_folder'] + "/data/"
         fic_name_employees = session['employees']
         employees = pd.read_csv(
             path + fic_name_employees, sep=";", decimal=",")
@@ -220,7 +220,7 @@ def calculer():
 
     # Loading spouses data
     if 'spouses' in session:
-        path = PATH_UPLOADS + "data/"
+        path = session['sim_folder'] + "/data/"
         fic_name_spouses = session['spouses']
         spouses = pd.read_csv(path + fic_name_spouses, sep=";", decimal=",")
     else:
@@ -228,7 +228,7 @@ def calculer():
 
     # Loading children data
     if 'children' in session:
-        path = PATH_UPLOADS + "data/"
+        path = session['sim_folder'] + "/data/"
         fic_name_children = session['children']
         children = pd.read_csv(path + fic_name_children, sep=";", decimal=",")
     else:
@@ -253,7 +253,7 @@ def calculer():
 
 
     # save the results
-    data.to_csv(PATH_UPLOADS + 'results/results.csv',
+    data.to_csv(session['sim_folder'] + 'results/results.csv',
                 sep=';', index=False, decimal=',')
 
     return render_template('afficher_resultats.html', cols=list(data.columns), data=data.values.tolist())
@@ -263,15 +263,15 @@ def calculer():
 def charger_donnees():
     # chargement employees
     fic_employees = request.files['employees']
-    data, session['employees'] = save_file(fic_employees)
+    data, session['employees'] = save_file(fic_employees,session['sim_folder']+'/data/')
 
     # chargement spouses
     fic_spouses = request.files['spouses']
-    data2, session['spouses'] = save_file(fic_spouses)
+    data2, session['spouses'] = save_file(fic_spouses, session['sim_folder'] + '/data')
 
     # chargement children
     fic_children = request.files['children']
-    data3, session['children'] = save_file(fic_children)
+    data3, session['children'] = save_file(fic_children, session['sim_folder'] + '/data')
 
     return render_template('afficher_donnees.html', cols=list(data.columns), data=data.values.tolist(),
                            cols2=list(data2.columns), data2=data2.values.tolist(),
@@ -280,7 +280,7 @@ def charger_donnees():
 
 @bp.route('/exporter', methods=['GET'])
 def exporter():
-    return send_from_directory(PATH_UPLOADS + 'results/', 'results.csv')
+    return send_from_directory(session['sim_folder'] + 'results/', 'results.csv')
 
 
 @bp.route('/create_sim', methods=['GET', 'POST'])
