@@ -40,7 +40,8 @@
           <div class="flash">{{ message }}</div>
         {% endfor %}
 
-        Logged user : {{ g.user['username'] }}
+        <h4>Logged user : {{ g.user['username'] }}</h4>
+        <p style="color:green;"><b>Active simulation : {{ session['active_sim'] }}</b></p>
         <div class="container">
                 <center>
                   <div class="jumbotron">
@@ -51,9 +52,9 @@
 
                     <div class="col-2">
 
-                      <form action='/'>
+                      <form action='/simulations'>
 
-                        <button class="btn btn-primary btn-block">Home</a></button>
+                        <button class="btn btn-primary btn-block">Simulations</a></button>
 
                       </form>
 

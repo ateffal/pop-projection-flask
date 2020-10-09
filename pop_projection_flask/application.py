@@ -130,8 +130,13 @@ def afficher_donnees():
                           cols3=cols_3, data3=values_3)
 
 
-@bp.route('/donnees', methods=['GET'])
-def donnees():
+@bp.route('/donnees/<int:sim_id>', methods=['GET'])
+def donnees(sim_id):
+    session['sim_id'] = sim_id
+    db = get_db()
+    user_id = session['user_id']
+    sim = db.execute('SELECT * FROM simulations WHERE user_id = ? and id = ?', (user_id, sim_id)).fetchone()
+    session['active_sim'] = sim[1]
     return render_template('donnees.html')
 
 

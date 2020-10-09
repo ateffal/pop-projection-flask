@@ -67,7 +67,7 @@
                             {% for sim in simulations %}-
                                 <tr>
                                     <td>{{sim[0]}}</td>
-                                    <td>{{sim[1]}}</td>
+                                    <td><a href=" {{ '/donnees/' + sim[0]|string  }} ">{{sim[1]}}</a></td>
                                     <td>{{sim[2]}}</td>
 
                                     <td>
