@@ -35,28 +35,23 @@ bp = Blueprint('application', __name__, static_folder='static', static_url_path=
 
 @bp.route('/', methods=['GET', 'POST'])
 def home():
-    #    if 'login' in session:
-    #        return render_template('index.html', user_login=session['login'])
-    #    else:
-    #        return redirect(url_for('page_de_login'))
-    session['login'] = 'Guest'
     return bp.send_static_file('home.html')
 
 
 @bp.route('/login', methods=['GET', 'POST'])
-def page_de_login():
-    if request.method == 'GET':
-        return render_template('login.html')
+# def page_de_login():
+#     if request.method == 'GET':
+#         return render_template('login.html')
 
-    if request.method == 'POST':
-        session['login'] = request.form['login']
-        return redirect(url_for('acceuil'))
+#     if request.method == 'POST':
+#         session['login'] = request.form['login']
+#         return redirect(url_for('acceuil'))
 
 
 @bp.route('/parametres')
 def parametres():
-    session['login']='Guest'
-    return render_template('parametres.html', user_login=session['login'])
+    # session['login']='Guest'
+    return render_template('parametres.html')
 
 
 
@@ -65,7 +60,6 @@ def save_parameters():
 
 
     # one value parameters
-    session['login']='Guest'
     session['duree_sim'] = request.form['duree_sim']
     session['table_mortalite'] = request.form['table_mortalite']
     session['age_depart'] = request.form['age_depart']
@@ -81,8 +75,6 @@ def save_parameters():
 
 @bp.route('/display_parameters', methods=['GET', 'POST'])
 def display_parameters():
-    session['login']='Guest'
-
     duree_sim_ = session['duree_sim'] if 'duree_sim' in session else 'Not defined'
     table_mortalite_ = session['table_mortalite'] if 'table_mortalite' in session else 'Not defined'
     age_depart_ = session['age_depart'] if 'age_depart' in session else 'Not defined'
@@ -94,7 +86,7 @@ def display_parameters():
 
     return render_template('afficher_parametres.html', duree_sim=duree_sim_,
             table_mortalite=table_mortalite_, age_depart=age_depart_ ,loi_ret = loi_ret_, loi_dem = loi_dem_,
-            loi_mar = loi_mar_, loi_remp = loi_remp_,   user_login=session['login'])
+            loi_mar = loi_mar_, loi_remp = loi_remp_)
 
 
 
@@ -135,13 +127,12 @@ def afficher_donnees():
         values_3 = []
 
     return render_template('afficher_donnees.html', cols=cols_, data=values_, cols2=cols_2, data2=values_2,
-                          cols3=cols_3, data3=values_3,user_login=session['login'])
+                          cols3=cols_3, data3=values_3)
 
 
 @bp.route('/donnees', methods=['GET'])
 def donnees():
-    session['login']='Guest'
-    return render_template('donnees.html', user_login=session['login'])
+    return render_template('donnees.html')
 
 
 @bp.route('/calculer', methods=['GET', 'POST'])
@@ -259,12 +250,11 @@ def calculer():
     data.to_csv(PATH_UPLOADS + 'results/results.csv',
                 sep=';', index=False, decimal=',')
 
-    return render_template('afficher_resultats.html', cols=list(data.columns), data=data.values.tolist(), user_login=session['login'])
+    return render_template('afficher_resultats.html', cols=list(data.columns), data=data.values.tolist())
 
 
 @bp.route('/charger_donnees', methods=['POST'])
 def charger_donnees():
-    session['login'] = 'Guest'
     # chargement employees
     fic_employees = request.files['employees']
     data, session['employees'] = save_file(fic_employees)
@@ -279,7 +269,7 @@ def charger_donnees():
 
     return render_template('afficher_donnees.html', cols=list(data.columns), data=data.values.tolist(),
                            cols2=list(data2.columns), data2=data2.values.tolist(),
-                           cols3=list(data3.columns), data3=data3.values.tolist(), user_login=session['login'])
+                           cols3=list(data3.columns), data3=data3.values.tolist())
 
 
 @bp.route('/exporter', methods=['GET'])
@@ -290,8 +280,7 @@ def exporter():
 @bp.route('/create_sim', methods=['GET', 'POST'])
 def create_sim():
     if request.method == 'GET':
-        session['login']='Guest'
-        return render_template('create_simulation.html', user_login=session['login'])
+        return render_template('create_simulation.html')
     if request.method == 'POST':
         sim_name = request.form['sim_name']
         sim_description = request.form['sim_description']
@@ -300,7 +289,7 @@ def create_sim():
         db = get_db()
         db.execute('INSERT INTO simulations (sim_name, sim_description, db_path, user_id) VALUES (?, ?, ?, ?)', (sim_name, sim_description, db_path, user_id))
         db.commit()
-        return render_template('donnees.html', user_login=session['login'])
+        return redirect(url_for('application.simulations'))
 
 
 

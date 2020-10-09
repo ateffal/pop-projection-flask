@@ -27,9 +27,7 @@
 
         <!-- Bootstrap 4 -->
 
-
         <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
-
 
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -39,84 +37,52 @@
         <link href="../static/css/styles_sim.css" rel="stylesheet" />
     </head>
 
-
-
-
-
-
     <body>
 
+        <div class="container-lg">
+            <div class="table-responsive">
+                <div class="table-wrapper">
+                    <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-8"><h2>My Simulations </h2></div>
+                            <div class="col-sm-4">
+                                <form action="/create_sim" method="get">
+                                    <button type="submit" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New Simulation</button>
+                                </form>
 
-
-
-
-
-<div class="container-lg">
-    <div class="table-responsive">
-        <div class="table-wrapper">
-            <div class="table-title">
-                <div class="row">
-                    <div class="col-sm-8"><h2>My Simulations </h2></div>
-                    <div class="col-sm-4">
-                        <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New Simulation</button>
+                            </div>
+                        </div>
                     </div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for sim in simulations %}-
+                                <tr>
+                                    <td>{{sim[0]}}</td>
+                                    <td>{{sim[1]}}</td>
+                                    <td>{{sim[2]}}</td>
+
+                                    <td>
+                                        <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
+                                        <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                        <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {% for sim in simulations %}-
-                        <tr>
-                            <td>{{sim[0]}}</td>
-                            <td>{{sim[1]}}</td>
-                            <td>{{sim[2]}}</td>
-
-                            <td>
-                                <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
-                                <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-
-                </tbody>
-            </table>
         </div>
-    </div>
-</div>
-
-
-        <!--<div class="row">-->
-        <!--    <div class="offset-sm-2 col-sm-8">-->
-        <!--      <h2 class="your-sims">Simulations </h2>-->
-        <!--      <ul class="edit">-->
-        <!--        {% for sim in simulations %}-->
-        <!--          <li>-->
-        <!--            {{sim}}-->
-
-        <!--            <form class="hidden" method="post" action="/delete_sim">-->
-        <!--              <button class="btn btn-outline-danger delete">Delete</button>-->
-        <!--            </form>-->
-
-        <!--            <a href="/edit_sim" title="title">-->
-        <!--              <button class="btn btn-outline-secondary">Edit</button>-->
-        <!--            </a>-->
-
-
-        <!--          </li>-->
-        <!--        {% endfor %}-->
-        <!--      </ul>-->
-        <!--    </div>-->
-        <!--</div>-->
-
 
     </body>
 
