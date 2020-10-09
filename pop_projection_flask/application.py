@@ -303,6 +303,16 @@ def simulations():
         return render_template('simulations.html', simulations=sims)
 
 
+@bp.route('/delete_sim/<int:sim_id>', methods=['GET'])
+def delete_sim(sim_id):
+    if request.method == 'GET':
+        db = get_db()
+        user_id = session['user_id']
+        db.execute('DELETE FROM simulations WHERE user_id = ? and id = ?', (user_id, sim_id, ))
+        db.commit()
+        return redirect(url_for('application.simulations'))
+
+
 
 
 @bp.errorhandler(400)
