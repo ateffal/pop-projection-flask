@@ -137,6 +137,7 @@ def donnees(sim_id):
     user_id = session['user_id']
     sim = db.execute('SELECT * FROM simulations WHERE user_id = ? and id = ?', (user_id, sim_id)).fetchone()
     session['active_sim'] = sim[1]
+    session['sim_folder'] = 'SIM_' + sim[1]
     return render_template('donnees.html')
 
 
@@ -290,10 +291,11 @@ def create_sim():
         sim_name = request.form['sim_name']
         sim_description = request.form['sim_description']
         user_id = session['user_id']
-        db_path = ''
+        db_path = PATH_UPLOADS + 'simulations' + '/SIM_' + sim_name + '/'
         db = get_db()
         db.execute('INSERT INTO simulations (sim_name, sim_description, db_path, user_id) VALUES (?, ?, ?, ?)', (sim_name, sim_description, db_path, user_id))
         db.commit()
+
         return redirect(url_for('application.simulations'))
 
 
