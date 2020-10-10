@@ -12,7 +12,6 @@ import random
 import sys
 from .auth import login_required
 from.db import get_db
-import shutil
 
 # import inspect
 # sys.path.insert(0, 'D:/Shared/Shared/a.teffal/OneDrive/OneDrive - Bank Al Maghrib/Application_Python/pop_projection')
@@ -337,7 +336,7 @@ def delete_sim(sim_id):
         db.commit()
 
         # delete folder of simulation
-        shutil.rmtree(sim_path)
+        os.remove(sim_path)
 
         return redirect(url_for('application.simulations'))
 
