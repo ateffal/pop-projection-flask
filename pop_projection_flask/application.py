@@ -267,11 +267,11 @@ def charger_donnees():
 
     # chargement spouses
     fic_spouses = request.files['spouses']
-    data2, session['spouses'] = save_file(fic_spouses, session['sim_folder'] + '/data')
+    data2, session['spouses'] = save_file(fic_spouses, session['sim_folder'] + '/data/')
 
     # chargement children
     fic_children = request.files['children']
-    data3, session['children'] = save_file(fic_children, session['sim_folder'] + '/data')
+    data3, session['children'] = save_file(fic_children, session['sim_folder'] + '/data/')
 
     return render_template('afficher_donnees.html', cols=list(data.columns), data=data.values.tolist(),
                            cols2=list(data2.columns), data2=data2.values.tolist(),
@@ -291,12 +291,23 @@ def create_sim():
         sim_name = request.form['sim_name']
         sim_description = request.form['sim_description']
         user_id = session['user_id']
-        db_path = PATH_UPLOADS + 'simulations' + '/SIM_' + sim_name + '/'
-        db = get_db()
-        db.execute('INSERT INTO simulations (sim_name, sim_description, db_path, user_id) VALUES (?, ?, ?, ?)', (sim_name, sim_description, db_path, user_id))
-        db.commit()
+        # create simulation's folder in simulations folder
+        db_path = PATH_UPLOADS + 'simulations' + '/SIM_' + sim_name
+        if not os.path.exists(db_path):
+            os.makedirs(db_path)
+            db = get_db()
+            db.execute('INSERT INTO simulations (sim_name, sim_description, db_path, user_id) VALUES (?, ?, ?, ?)', (sim_name, sim_description, db_path, user_id))
+            db.commit()
 
-        return redirect(url_for('application.simulations'))
+            db_path = db_path + '/data'
+            if not os.path.exists(db_path):
+                os.makedirs(db_path)
+
+
+
+            return redirect(url_for('application.simulations'))
+        else:
+            return 'Error in creating simulation : ' + sim_name
 
 
 

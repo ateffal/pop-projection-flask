@@ -19,6 +19,8 @@ def save_file(fic, path=None):
     if path == None:
         path = PATH_UPLOADS + "data/"
 
+    print('path = ' , path)
+
     fic.save(path + fic_name)
     data = pd.read_csv(path + fic_name, sep=";", decimal=",")
     return data, fic_name
