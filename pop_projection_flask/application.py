@@ -254,7 +254,7 @@ def calculer():
 
 
     # save the results
-    data.to_csv(session['sim_folder'] + 'results/results.csv',
+    data.to_csv(session['sim_folder'] + '/results/results.csv',
                 sep=';', index=False, decimal=',')
 
     return render_template('afficher_resultats.html', cols=list(data.columns), data=data.values.tolist())
@@ -281,7 +281,7 @@ def charger_donnees():
 
 @bp.route('/exporter', methods=['GET'])
 def exporter():
-    return send_from_directory(session['sim_folder'] + 'results/', 'results.csv')
+    return send_from_directory(session['sim_folder'] + '/results/', 'results.csv')
 
 
 @bp.route('/create_sim', methods=['GET', 'POST'])
@@ -300,9 +300,15 @@ def create_sim():
             db.execute('INSERT INTO simulations (sim_name, sim_description, db_path, user_id) VALUES (?, ?, ?, ?)', (sim_name, sim_description, db_path, user_id))
             db.commit()
 
-            db_path = db_path + '/data'
-            if not os.path.exists(db_path):
-                os.makedirs(db_path)
+            # create data folder
+            if not os.path.exists(db_path + '/data'):
+                os.makedirs(db_path + '/data')
+
+            # create results folder
+            if not os.path.exists(db_path + '/results'):
+                os.makedirs(db_path + '/results')
+
+
 
 
 
