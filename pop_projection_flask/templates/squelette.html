@@ -41,7 +41,8 @@
         {% endfor %}
 
         <h4>Logged user : {{ g.user['username'] }}</h4>
-        <p style="color:green;"><b>Active simulation : {{ session['active_sim'] }}</b></p>
+        <p style="color:green;"><b>Active simulation : {{ session['active_sim'] }}</b> --- <b><a href='/simulations'>My simulations</a> </p>
+
         <div class="container">
                 <center>
                   <div class="jumbotron">
@@ -50,15 +51,7 @@
 
                   <div class="row">
 
-                    <div class="col-3">
 
-                      <form action='/simulations'>
-
-                        <button class="btn btn-primary btn-block">Simulations</a></button>
-
-                      </form>
-
-                    </div>
 
                     <div class="col-3">
 
@@ -84,11 +77,17 @@
                       </form>
                     </div>
 
-                    <!--<div class="col-2">-->
-                    <!--  <form action='/display_parameters'>-->
-                    <!--    <button class="btn btn-primary btn-block">Display Parameters</a></button>-->
-                    <!--  </form>-->
-                    <!--</div>-->
+
+
+                    <div class="col-3">
+
+                      <form action='/results//{{ session['sim_id'] }}'>
+
+                        <button class="btn btn-primary btn-block">Results</a></button>
+
+                      </form>
+
+                    </div>
 
                   </div>
                 </center>

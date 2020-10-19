@@ -260,6 +260,13 @@ def calculer():
     return render_template('afficher_resultats.html', cols=list(data.columns), data=data.values.tolist())
 
 
+
+@bp.route('/results/<int:sim_id>', methods=['GET'])
+def results(sim_id):
+    return 'Not yet implemented !'
+
+
+
 @bp.route('/charger_donnees', methods=['POST'])
 def charger_donnees():
     # chargement employees
