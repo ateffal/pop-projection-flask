@@ -50,7 +50,7 @@
 
                   <div class="row">
 
-                    <div class="col-2">
+                    <div class="col-3">
 
                       <form action='/simulations'>
 
@@ -62,7 +62,7 @@
 
                     <div class="col-3">
 
-                      <form action='/donnees'>
+                      <form action='/donnees/{{ session['sim_id'] }}'>
 
                         <button class="btn btn-primary btn-block">Load Demographic Data</a></button>
 
@@ -78,17 +78,17 @@
 
                     </div>
 
-                    <div class="col-2">
-                      <form action='/parametres'>
+                    <div class="col-3">
+                      <form action='/display_parameters'>
                         <button class="btn btn-primary btn-block">Parameters</a></button>
                       </form>
                     </div>
 
-                    <div class="col-2">
-                      <form action='/display_parameters'>
-                        <button class="btn btn-primary btn-block">Display Parameters</a></button>
-                      </form>
-                    </div>
+                    <!--<div class="col-2">-->
+                    <!--  <form action='/display_parameters'>-->
+                    <!--    <button class="btn btn-primary btn-block">Display Parameters</a></button>-->
+                    <!--  </form>-->
+                    <!--</div>-->
 
                   </div>
                 </center>
