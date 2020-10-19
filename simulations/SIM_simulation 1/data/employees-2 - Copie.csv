@@ -1,0 +1,21 @@
+id;type;sex;familyStatus;age;group
+id1;active;male;married;28;3
+id2;active;male;married;33;3
+id3;active;female;not married;26;4
+id4;active;female;not married;22;4
+id5;active;male;married;26;3
+id6;active;male;married;21;3
+id7;active;male;married;20;3
+id8;active;male;married;31;3
+id9;active;female;not married;26;4
+id10;active;male;not married;43;1
+id11;active;female;married;43;2
+id12;active;male;married;21;3
+id13;active;male;not married;33;3
+id14;active;male;married;29;3
+id15;active;female;not married;32;4
+id16;active;male;married;27;3
+id17;active;male;married;34;3
+id18;active;male;married;33;3
+id19;active;female;married;37;4
+id20;active;female;not married;25;4

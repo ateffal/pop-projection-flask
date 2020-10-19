@@ -1,4 +1,4 @@
-﻿{% extends "squelette.html" %}
+{% extends "squelette.html" %}
 
 {% block titre %}Demographic Data{% endblock %}
 
@@ -14,15 +14,19 @@
     <form action="/charger_donnees" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
 
       <label for="employees">Employees :</label>
-      <input type='file' name='employees' id="employees" class="form-control" required>
+      <input type='file' name='employees' id="employees" class="form-control" required onchange="readFiles(event, 'outputemp')">
       <div class="invalid-feedback">Choose a csv file !</div>
 
-        <br>
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#helpEmployees">
-          Structure of employees file.
-        </button>
 
-      
+
+      <br>
+      <button type="button" class="btn btn-info" data-toggle="modal" data-target="#helpEmployees">
+        Structure of employees file.
+      </button>
+
+      <div id="outputemp"></div>
+
+
 
       <div>
 
@@ -67,7 +71,7 @@
                     id10;active;male;not married;43;1 <br>
 
                 </div>
-                
+
 
               </div>
 
@@ -83,12 +87,15 @@
       <br>
 
       <label for="spouses">Spouses :</label>
-      <input type='file' name='spouses' class="form-control" id="spouses" required>
+      <input type='file' name='spouses' class="form-control" id="spouses" required onchange="readFiles(event, 'outputspouses')">
       <div class="invalid-feedback">Choose a csv file !</div>
       <br>
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#helpEmployees">
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#helpSpouses">
           Structure of spouses file.
         </button>
+
+      <div id="outputspouses"></div>
+
 
       <div class="modal" id="helpSpouses">
         <div class="modal-dialog">
@@ -119,7 +126,7 @@
 
                   <div> <h2> Example : </h2> </div>
 
-                  
+
                   <b>id;rang;sex;age;type;familyStatus</b><br>
                   id1;1;female;34;active;married<br>
                   id2;1;female;30;widow;not married<br>
@@ -135,7 +142,7 @@
                 </div>
 
 
-              
+
             </div>
 
             <!-- Modal footer -->
@@ -153,14 +160,16 @@
 
       <div class="form-group">
         <label for="children" >Children :</label>
-        <input type='file' name='children' class="form-control" id="children" required>
+        <input type='file' name='children' class="form-control" id="children" required onchange="readFiles(event, 'outputchild')">
         <div class="invalid-feedback">Choose a csv file !</div>
         <br>
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#helpEmployees">
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#helpChildren">
           Structure of children file.
         </button>
 
       </div>
+
+      <div id="outputchild"></div>
 
 
       <div class="modal" id="helpChildren">
@@ -191,7 +200,7 @@
 
                   <div> <h2> Example : </h2> </div>
 
-                  
+
                   <b>id;rang;sex;age;type;familyStatus</b><br>
                   id1;1;female;0;active;not married<br>
                   id2;1;female;0;active;not married<br>
@@ -241,5 +250,123 @@ form.addEventListener('submit', function(event) {
 })
 
 </script>
+
+
+
+
+<!-- Generation table HTML -->
+
+<script>
+
+
+function genHtmlTable(data) {
+    //Assumes data is a 2D-array, where first row is the header of the generated html table
+
+    console.log(data)
+
+    //number of columns
+    var n_cols = data[0].length;
+
+    //number of rows
+    var n_rows = data.length;
+
+    var i = 0;
+    var j = 0;
+    var table = "<table class='table table-hover'><tr>"
+
+    for (i = 0; i < n_cols; i++) {
+        table = table + "<th>" + data[0][i] + "</th>";
+    }
+
+    table = table + "</tr>"
+
+    if (n_rows > 0) {
+
+        for (i = 1; i < n_rows - 1; i++) {
+
+            table += "<tr>"
+            for (j = 0; j < n_cols; j++) {
+                table += "<td>" + data[i][j] + "</td>";
+            }
+            table += "</tr>"
+
+        }
+    }
+
+    //add closing table tag
+    table += "</table>"
+
+    return table;
+
+}
+
+
+
+
+
+
+function readFiles(event, output) {
+    console.log('output = ', output)
+
+    var fileList = event.target.files;
+
+    for (var i = 0; i < fileList.length; i++) {
+        loadAsText(fileList[i], output);
+    }
+}
+
+function loadAsText(theFile, output) {
+    var reader = new FileReader();
+    var x = document.getElementById(output)
+
+    reader.onload = function(loadedEvent) {
+        // result contains loaded file.
+        var txt = loadedEvent.target.result;
+
+        //split each line
+        txt = txt.split("\n");
+
+        // splite columns
+        var table = txt.map(splitLine);
+
+        //display in output
+        //document.getElementById(output).innerHTML = genHtmlTable(table);
+        x.innerHTML = genHtmlTable(table);
+
+
+        //print file in console
+        table.forEach(element => {
+
+            element.forEach(x => {
+                console.log(x)
+
+            });
+
+            console.log("----------------------------")
+
+
+        });
+
+
+
+    }
+    reader.readAsText(theFile);
+}
+
+var colsNames = '';
+
+function splitLine(value, index, array) {
+
+    return value.split(";");
+}
+
+
+
+
+
+
+
+</script>
+
 
 {% endblock %}
