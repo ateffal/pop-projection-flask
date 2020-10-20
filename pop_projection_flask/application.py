@@ -263,7 +263,14 @@ def calculer():
 
 @bp.route('/results/<int:sim_id>', methods=['GET'])
 def results(sim_id):
-    return 'Not yet implemented !'
+    if sim_id == session['sim_id']:
+        path = session['sim_folder'] + "/results/"
+        fic_name = 'results.csv'
+        results = pd.read_csv(path + fic_name, sep=";", decimal=",")
+        return render_template('afficher_resultats.html', cols=list(results.columns), data=results.values.tolist())
+    else:
+        return 'Forbidden !'
+
 
 
 
