@@ -13,6 +13,7 @@ import sys
 from .auth import login_required
 from.db import get_db
 import shutil
+import os.path
 
 # import inspect
 # sys.path.insert(0, 'D:/Shared/Shared/a.teffal/OneDrive/OneDrive - Bank Al Maghrib/Application_Python/pop_projection')
@@ -266,8 +267,11 @@ def results(sim_id):
     if sim_id == session['sim_id']:
         path = session['sim_folder'] + "/results/"
         fic_name = 'results.csv'
-        results = pd.read_csv(path + fic_name, sep=";", decimal=",")
-        return render_template('afficher_resultats.html', cols=list(results.columns), data=results.values.tolist())
+        if os.path.exists(path + fic_name):
+            results = pd.read_csv(path + fic_name, sep=";", decimal=",")
+            return render_template('afficher_resultats.html', cols=list(results.columns), data=results.values.tolist())
+        else:
+            return "There is no results ! <a href='/display_parameters'>Launch the simulation. </a>"
     else:
         return 'Forbidden !'
 
