@@ -137,7 +137,23 @@ def df_to_func(df, not_found_return_value = 0):
     return (func, cols)
 
 
+# These functions create a replacement law from a dataframe
 def fic_repl_to_law_repl(df):
+    """ create a replacement law (function)
+    from a dataframe that may contain one
+    or all of the columns : group_out, year_
+    
+    Parameters
+    ----------
+    df : dataframe
+
+    Returns
+    -------
+    function
+
+    """
+
+
 
     if df is None:
         return None
