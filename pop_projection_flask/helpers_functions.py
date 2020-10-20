@@ -10,6 +10,20 @@ PATH_UPLOADS = os.getcwd() + '/'
 
 # Helper functions
 def save_file(fic, path=None):
+    """Saves file to path
+
+    Parameters
+    ----------
+    fic : File object
+        The file location of the spreadsheet
+    path : string, optional
+        path to which the file will be saved
+
+    Returns
+    -------
+    tuple
+        dataframe, file name
+    """
 
     fic_name = fic.filename
 
@@ -26,6 +40,9 @@ def save_file(fic, path=None):
     return data, fic_name
 
 def get_secret_key():
+    """Rturn a 14 lenght random string
+
+    """
     alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     letters = [alphabet[i] for i in range(52)]
     sk = ""
@@ -36,7 +53,26 @@ def get_secret_key():
     return sk
 
 
-def fic_to_func(path_fic):
+def fic_to_func(path_fic, not_found_return_value = 0):
+    """Transforms a csv file to a function.
+       This function returns the value of the last column
+       of the file when passed the values of first columns
+       as parameters. If such combinaison does not exist,
+       the function returns 0
+
+    Parameters
+    ----------
+    path_fic : string
+               full path of the file.
+
+    not_found_return_value : numeric
+
+    Returns
+    -------
+    tuple
+        function, names of parameters (list)
+
+    """
     df = pd.read_csv(path_fic, sep=";", decimal=",")
     cols = list(df.columns)[:-1]
     val = list(df.columns)[-1]
@@ -46,7 +82,7 @@ def fic_to_func(path_fic):
             params), 'number of parameters must much cols of file'
         assert list(
             params.keys()) == cols, 'parameters does not much colonnes of file'
-        df_temp = df
+        df_temp = df.copy()
         i = 0
         for param, value in params.items():
             df_temp = df_temp[df_temp[cols[i]] == value]
@@ -54,12 +90,31 @@ def fic_to_func(path_fic):
         if len(list(df_temp[val])) == 1:
             return list(df_temp[val])[0]
         else:
-            return 0
+            return not_found_return_value
 
     return func, tuple(cols)
 
 
-def df_to_func(df):
+def df_to_func(df, not_found_return_value = 0):
+    """Transforms a dataframe to a function.
+       This function returns the value of the last column
+       of the dataframe when passed the values of first columns
+       as parameters. If such combinaison does not exist,
+       the function returns 0
+
+    Parameters
+    ----------
+    df : dataframe
+
+    not_found_return_value : numeric
+
+    Returns
+    -------
+    tuple
+        function, names of parameters (list)
+
+    """
+
     if not isinstance(df, pd.DataFrame):
         return None
     cols = list(df.columns)[:-1]
