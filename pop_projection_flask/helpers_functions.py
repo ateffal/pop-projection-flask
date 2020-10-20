@@ -84,7 +84,7 @@ def df_to_func(df):
 
 def fic_repl_to_law_repl(df):
 
-    if df == None:
+    if df is None:
         return None
 
     # get df columns

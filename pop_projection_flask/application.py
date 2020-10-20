@@ -172,7 +172,7 @@ def calculer():
     else:
         if 'loi_ret' in session:
             fic_name = session['loi_ret']
-            loi_ret = pd.read_csv(session['sim_folder'] + 'parameters/' + fic_name, sep=";", decimal=",")
+            loi_ret = pd.read_csv(session['sim_folder'] + '/parameters/' + fic_name, sep=";", decimal=",")
             law_ret = df_to_func(loi_ret)[0]
         else:
             return 'Saisissez un âge de retraite ou selectionner une loi de retraite !'
@@ -182,7 +182,7 @@ def calculer():
     if 'loi_dem' in session :
         fic_name = session['loi_dem']
         if not fic_name == '':
-            loi_dem = pd.read_csv(session['sim_folder'] + 'parameters/' + fic_name, sep=";", decimal=",")
+            loi_dem = pd.read_csv(session['sim_folder'] + '/parameters/' + fic_name, sep=";", decimal=",")
         else:
             loi_dem = None
     else:
@@ -194,7 +194,7 @@ def calculer():
     if 'loi_mar' in session :
         fic_name = session['loi_mar']
         if not fic_name=='':
-            loi_mar = pd.read_csv(session['sim_folder'] + 'parameters/' + fic_name, sep=";", decimal=",")
+            loi_mar = pd.read_csv(session['sim_folder'] + '/parameters/' + fic_name, sep=";", decimal=",")
         else:
             loi_mar = None
     else:
@@ -205,7 +205,7 @@ def calculer():
     if 'loi_remp' in session :
         fic_name = session['loi_remp']
         if not fic_name=='':
-            loi_remp = pd.read_csv(session['sim_folder'] + 'parameters/' + fic_name, sep=";", decimal=",")
+            loi_remp = pd.read_csv(session['sim_folder'] + '/parameters/' + fic_name, sep=";", decimal=",")
         else:
             loi_remp = None
     else:
